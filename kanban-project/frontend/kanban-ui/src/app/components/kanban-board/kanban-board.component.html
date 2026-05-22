@@ -1,0 +1,58 @@
+<div class="kanban-container">
+  <header class="header">
+    <h1>Task Board</h1>
+    <button class="add-btn" (click)="showAddForm = true">+ Add Task</button>
+  </header>
+
+  <div class="add-form-overlay" *ngIf="showAddForm" (click)="cancelAdd()">
+    <div class="add-form" (click)="$event.stopPropagation()">
+      <h2>Create New Task</h2>
+      <input 
+        type="text" 
+        placeholder="Task title" 
+        [(ngModel)]="newTaskTitle"
+        autofocus
+      />
+      <textarea 
+        placeholder="Description" 
+        [(ngModel)]="newTaskDescription"
+        rows="3"
+      ></textarea>
+      <div class="form-actions">
+        <button class="cancel-btn" (click)="cancelAdd()">Cancel</button>
+        <button class="create-btn" (click)="addTask()">Create Task</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="board">
+    <div 
+      class="column" 
+      *ngFor="let column of columns"
+      [style.border-top-color]="column.color"
+      (drop)="onDrop(column.id)"
+      (dragover)="onDragOver($event)"
+    >
+      <div class="column-header" [style.background]="column.color">
+        <h3>{{ column.title }}</h3>
+        <span class="task-count">{{ getTasksByStatus(column.id).length }}</span>
+      </div>
+      
+      <div class="task-list">
+        <div 
+          class="task-card" 
+          *ngFor="let task of getTasksByStatus(column.id)"
+          draggable="true"
+          (dragstart)="onDragStart(task)"
+        >
+          <div class="task-content">
+            <h4>{{ task.title }}</h4>
+            <p>{{ task.description }}</p>
+            <span class="task-date">{{ task.createdAt | date:'short' }}</span>
+          </div>
+          <button class="delete-btn" (click)="deleteTask(task.id!)">×</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
