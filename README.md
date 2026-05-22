@@ -1,122 +1,88 @@
-# Kanban Task Board
+# 📋 Kanban Task Board - Full Stack: ASP.NET Core API + Angular
 
-A modern Kanban task board built with Angular 17 and ASP.NET Core 8, containerized with Docker.
+<div align="center">
 
-## Features
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet)
+![Angular](https://img.shields.io/badge/Angular-18-DD0031?style=for-the-badge&logo=angular)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx)
+![MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-- Drag and drop tasks between columns
-- Create new tasks with title and description
-- Delete tasks
-- Real-time task count per column
-- Beautiful gradient UI with smooth animations
-- Responsive design
+Interactive task management board with drag-and-drop functionality and Docker support
+</div>
 
-## Project Structure
+---
 
+## 📖 About
+
+Kanban Task Board is a full-stack web application for managing tasks using the Kanban methodology. It features a responsive Angular frontend with native drag-and-drop support and a robust ASP.NET Core Web API backend. The entire application is containerized with Docker for easy deployment.
+
+---
+
+## ✨ Features
+
+| Feature         | Description                                                    |
+|-----------------|----------------------------------------------------------------|
+| 🔄 Drag & Drop  | Intuitive drag-and-drop interface to move tasks between columns |
+| 📝 Task CRUD    | Create, read, update, and delete tasks easily                  |
+| 🏷️ Status Columns | Organize tasks by "To Do", "In Progress", and "Done"        |
+| ⚡ Real-time UI | Optimistic UI updates with error rollback                      |
+| 🐳 Docker Ready | Fully containerized with docker-compose                        |
+| 🎨 Modern UI    | Clean, responsive design with custom styling                   |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: ASP.NET Core 8 Web API  
+- **Frontend**: Angular 18 (Standalone Components)  
+- **Web Server**: Nginx (Alpine)  
+- **Containerization**: Docker + Docker Compose  
+- **Language**: C# 12, TypeScript  
+
+---
+
+## 🚀 Quick Start
+
+### With Docker (recommended)
+
+Ensure you have Docker and Docker Compose installed.
+
+```bash
+docker compose up --build
 ```
-kanban-project/
-├── backend/
-│   └── KanbanApi/
-│       ├── Controllers/
-│       │   └── TasksController.cs
-│       ├── Data/
-│       │   └── TaskRepository.cs
-│       ├── Models/
-│       │   └── TaskItem.cs
-│       ├── Program.cs
-│       └── Dockerfile
-├── frontend/
-│   ├── kanban-ui/
-│   │   └── src/
-│   │       └── app/
-│   │           ├── components/
-│   │           │   └── kanban-board/
-│   │           ├── models/
-│   │           ├── services/
-│   │           └── ...
-│   ├── Dockerfile
-│   └── nginx.conf
-└── docker-compose.yml
-```
 
-## How to Run
+Access the application:  
+Frontend: http://localhost:4200  
+API: http://localhost:8080/api/tasks  
 
-### Using Docker Compose (Recommended)
+---
 
-1. Navigate to the project root:
-   ```bash
-   cd /workspace/kanban-project
-   ```
+## 📡 API Endpoints
 
-2. Build and start all services:
-   ```bash
-   docker-compose up --build
-   ```
+| Method | Endpoint                  | Description               | Payload Example                                  |
+|--------|---------------------------|---------------------------|--------------------------------------------------|
+| GET    | `/api/tasks`              | Get all tasks             | -                                                |
+| GET    | `/api/tasks/{id}`         | Get single task by ID     | -                                                |
+| POST   | `/api/tasks`              | Create a new task         | `{ "title": "New Task", "description": "Details" }` |
+| PUT    | `/api/tasks/{id}`         | Update full task details  | `{ "title": "Updated", "status": "done" }`       |
+| PATCH  | `/api/tasks/{id}/status`  | Update task status only   | `{ "status": "inprogress" }`                     |
+| DELETE | `/api/tasks/{id}`         | Delete a task             | -                                                |
 
-3. Access the application:
-   - Frontend: http://localhost:4200
-   - Backend API: http://localhost:5000/api/tasks
-   - Swagger UI: http://localhost:5000/swagger
+---
 
-### Running Without Docker
+## 📸 Screenshots
 
-#### Backend
+<div align="center">
+<img src="screenshots/main_menu.png" alt="Main Kanban Board" width="45%"/>
+<img src="screenshots/add_task.png" alt="Drag and Drop Action" width="45%"/>
+</div>
 
-1. Navigate to backend folder:
-   ```bash
-   cd backend/KanbanApi
-   ```
+---
 
-2. Run the API:
-   ```bash
-   dotnet run --urls=http://localhost:5000
-   ```
+## 🔧 Configuration
 
-#### Frontend
+The application uses an in-memory data store for simplicity. To persist data across restarts in Docker, you can modify `TasksDataStore.cs` to use a database like SQLite or PostgreSQL.
 
-1. Navigate to frontend folder:
-   ```bash
-   cd frontend/kanban-ui
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start development server:
-   ```bash
-   npm start
-   ```
-
-4. Access at http://localhost:4200
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/tasks | Get all tasks |
-| GET | /api/tasks/{id} | Get task by ID |
-| POST | /api/tasks | Create new task |
-| PUT | /api/tasks/{id} | Update task |
-| PATCH | /api/tasks/{id}/status | Update task status |
-| DELETE | /api/tasks/{id} | Delete task |
-
-## Technology Stack
-
-### Backend
-- ASP.NET Core 8
-- RESTful API
-- In-memory repository pattern
-
-### Frontend
-- Angular 17
-- Standalone components
-- Reactive forms
-- HTTP Client
-- Drag and Drop API
-
-### DevOps
-- Docker
-- Docker Compose
-- Nginx reverse proxy
+**Nginx Proxy:**  
+The frontend Nginx server is configured to proxy `/api` requests to the backend container automatically.
